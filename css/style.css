@@ -1,0 +1,570 @@
+/* --- 1. Base & Font Setup --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    /* UPDATED: Added a subtle gradient background for depth */
+    background: linear-gradient(to bottom, #f1f5f9, #e5e7eb); /* gray-100 to gray-200 */
+    color: #1f2937; /* Tailwind's gray-800 */
+    margin: 0;
+    min-height: 100vh; /* Ensure gradient covers full page */
+}
+
+/* --- 2. Reusable Header & Footer --- */
+header {
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+nav {
+    container-type: inline-size;
+    max-width: 1280px;
+    margin: auto;
+    padding: 1.25rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827; /* gray-900 */
+    text-decoration: none;
+}
+
+nav .nav-links ul {
+    display: flex;
+    flex-direction: column; /* Mobile-first */
+    gap: 1rem;
+    padding: 1rem;
+    margin: 0;
+    list-style: none;
+}
+
+nav .nav-links li a {
+    text-decoration: none;
+    color: #374151; /* gray-700 */
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+nav .nav-links li a:hover {
+    color: #2563eb; /* blue-600 */
+}
+
+/* Hide mobile nav links by default */
+nav .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Nav Toggle (Pure CSS) */
+#nav-toggle {
+    display: none;
+}
+
+#nav-toggle:checked ~ .nav-links {
+    display: block;
+}
+
+.hamburger-menu {
+    cursor: pointer;
+    display: block; /* Show on mobile */
+}
+
+/* Desktop Navigation */
+@media (min-width: 768px) {
+    .hamburger-menu {
+        display: none;
+    }
+    nav .nav-links {
+        display: flex;
+        position: static;
+        box-shadow: none;
+    }
+    nav .nav-links ul {
+        flex-direction: row;
+        gap: 2rem;
+        padding: 0;
+    }
+}
+
+footer {
+    background-color: #1f2937; /* gray-800 */
+    color: #9ca3af; /* gray-400 */
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+footer p {
+    margin: 0.25rem 0;
+}
+
+/* --- 3. Homepage: Collage & Hero --- */
+#home {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.collage-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    z-index: 1;
+    opacity: 0.60;
+    pointer-events: none;
+}
+
+.collage-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(50%);
+}
+
+/* Dark overlay to make text readable */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    height: 100%;
+    padding: 1rem;
+}
+
+.hero-content h1 {
+    font-size:  3.75rem; /* 60px */
+    font-weight: 800;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    margin: 0;
+}
+
+.hero-content p {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 300;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    margin-top: 1rem;
+}
+
+.hero-button {
+    margin-top: 2.5rem;
+    display: inline-block;
+    background-color: white;
+    color: #111827; /* gray-900 */
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px; /* full pill */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.125rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.hero-button:hover {
+    background-color: #f3f4f6; /* gray-100 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 3rem; /* 48px */
+    }
+    .hero-content p {
+        font-size: 1.25rem; /* 20px */
+    }
+}
+
+/* --- 4. Journey Page: Place Cards & NEW Interactive Carousel --- */
+/* Main page container for padding */
+.page-container {
+    padding: 4rem 1rem;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto; /* 64px top/bottom, 16px left/right */
+}
+
+.page-header {
+    font-size: 2.5rem; /* 40px */
+    font-weight: 300; 
+    text-align: center;
+    margin-bottom: 3rem; /* 48px */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #374151; /* gray-700 */
+    border-bottom: 1px solid #d1d5db; /* gray-300 */
+    padding-bottom: 1rem;
+    /* UPDATED: Centered the header container */
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Container for all 10 places */
+.journey-log {
+    display: grid;
+    /* UPDATED: Responsive grid. Will be 1, 2, or 3 columns */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* UPDATED: Reduced gap */
+    gap: 1.5rem; /* Was 2.5rem */
+    max-width: 1280px; /* Full width */
+    margin: 0 auto; /* Center content */
+    padding: 0 1rem; /* Add horizontal padding */
+}
+
+/* A single place card */
+.place-card {
+    /* UPDATED: Card is now just a transparent container */
+    background-color: transparent;
+    box-shadow: none;
+    transition: all 0.3s ease-in-out;
+    /* UPDATED: Add transition for the new transform */
+    transition: transform 0.3s ease-in-out;
+}
+
+.place-card:hover {
+    /* UPDATED: Apply transform to the whole card */
+    transform: translateY(-8px);
+}
+
+.place-content {
+    /* UPDATED: Text is outside the card, just needs spacing */
+    padding: 1rem 0;
+    text-align: left;
+}
+
+.place-content h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    display: block;
+    color: #111827; /* gray-900 */
+    transition: font-size 0.3s ease;
+}
+
+/* UPDATED: Make the title a link */
+.place-content h2 a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.place-content h2 a:hover {
+    color: #2563eb; /* blue-600 */
+}
+
+.place-content p {
+    font-size: 1rem; /* 16px */
+    /* UPDATED: More line height for readability */
+    line-height: 1.7; 
+    color: #4b5563; /* gray-600 */
+    margin-top: 0.5rem;
+    /* Hides long descriptions */
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* --- NEW: Tag Styling (like your example) --- */
+.place-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem; /* More space for tags */
+    margin-bottom: 0.75rem;
+}
+
+.place-tags span {
+    display: inline-block;
+    /* UPDATED: Removed background */
+    background-color: transparent;
+    /* UPDATED: Added accent color */
+    color: #3b82f6; /* blue-500 */
+    font-size: 0.8rem; /* 12.8px */
+    font-weight: 500;
+    padding: 0; /* No padding needed */
+    border-radius: 0;
+    /* UPDATED: Added designer text styles */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+
+/* --- NEW: Interactive Carousel (with buttons, no auto-scroll) --- */
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    /* UPDATED: Set aspect-ratio to 4:5 (portrait) */
+    aspect-ratio: 5 / 5;
+    overflow: hidden;
+    /* UPDATED: Carousel itself is now the card */
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+}
+
+/* UPDATED: Add hover effect to the carousel */
+.place-card:hover .carousel-container {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    /* UPDATED: Removed transform, moved to parent .place-card */
+    /* transform: translateY(-8px); */
+}
+
+/* NEW: Show buttons when hovering over the carousel container */
+.carousel-container:hover .carousel-button {
+    opacity: 1;
+}
+
+.carousel-track {
+    display: flex;
+    /* UPDATED: Height is now 100% to fill container */
+    height: 100%;
+    transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+}
+
+.carousel-slide {
+    flex: 0 0 100%; /* Each slide takes up 100% of the container width */
+    width: 100%;
+    /* UPDATED: Height is now 100% */
+    height: 100%;
+    /* UPDATED: Removed black background */
+    /* background-color: #000; */
+}
+/* Center align contact form */
+
+
+.carousel-slide img {
+    width: 100%;
+    /* UPDATED: Height is 100% to fill the 4:5 container */
+    height: 100%;
+    /* UPDATED: 'cover' is needed to fill the 4:5 frame */
+    object-fit: cover;
+    /* UPDATED: Removed max-height */
+    /* max-height: 600px; */
+    /* NEW: Ensures the image is a block element */
+    display: block;
+}
+
+/* Navigation Buttons */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* UPDATED: More transparent */
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem; /* 40px */
+    height: 2.5rem; /* 40px */
+    
+    /* UPDATED: Flex properties to center the text arrow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* UPDATED: Cleaner, lighter arrow */
+    font-size: 1.5rem; 
+    font-weight: 400; /* Was 600 */
+    color: #111; /* Darker arrow */
+    cursor: pointer;
+    z-index: 10;
+    /* UPDATED: Removed default shadow */
+    box-shadow: none;
+    /* UPDATED: Transition opacity as well */
+    transition: all 0.3s ease;
+    
+    /* UPDATED: Hide buttons by default */
+    opacity: 0;
+}
+
+.carousel-button:hover {
+    /* UPDATED: Simpler hover effect */
+    background-color: white;
+    transform: translateY(-50%); /* Removed scale */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow on hover */
+}
+
+.carousel-button.prev {
+    left: 1rem; /* 16px */
+    /* UPDATED: Removed nudge */
+    /* padding-right: 2px; */
+}
+
+.carousel-button.next {
+    right: 1rem; /* 16px */
+    /* UPDATED: Removed nudge */
+    /* padding-left: 2px; */
+}
+
+/* --- 5. Gallery Page --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* 16px */
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem; /* Add horizontal padding */
+}
+
+@media (min-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (min-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1; /* Makes them all square */
+    object-fit: cover;
+    border-radius: 0.5rem; /* 8px */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 6. About & Contact Pages --- */
+.content-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem; /* Vertical padding, horizontal padding */
+}
+
+.content-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.content-card h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.content-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.content-card p {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.content-card img {
+    max-width: 100%; /* Ensures image doesn't overflow */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Removes extra space below image */
+    margin: 0 auto 1.5rem auto; /* Centers image and adds bottom margin */
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact Form */
+.contact-form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box; /* Important fix for padding */
+}
+
+.form-group textarea {
+    min-height: 150px;
+}
+
+.submit-button {
+    width: 100%;
+    background-color: #2563eb; /* blue-600 */
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #1d4ed8; /* blue-700 */
+}
+.place-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem; 
+    margin-bottom: 0.25rem; 
+}
+
+.place-tags span {
+    display: inline-block;
+    /* UPDATED: Added translucent background */
+    background-color: rgba(59, 130, 246, 0.1); 
+    color: #3b82f6; /* blue-500 */
+    font-size: 0.8rem; /* 12.8px */
+    font-weight: 500;
+    /* UPDATED: Added padding */
+    padding: 0.25rem 0.75rem; 
+    /* UPDATED: Added rounded border */
+    border: 1px solid rgba(59, 130, 246, 0.4); 
+    /* UPDATED: Added rounded corners */
+    border-radius: 9999px; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
